@@ -4,7 +4,19 @@
 - Open Source
 - Flexible
 - Powerful
-- Supports many languages
+- enterprise-class relational database management system
+- application platform
+- faster than or matches that of many other databases
+- large set of data types including JSON
+- can create custom data types
+- a data type is created for each table
+- support for non-relational data via extensions
+    - ltree: graphs
+    - hstore: key-value pair
+- 20 years old
+- platform independent
+- new major release every year
+- Can write stored procedures and functions in many languages
     + pgSQL / SQL
     + Tcl
     + Python
@@ -23,13 +35,21 @@
 
 --
 ## Why Not PostgreSQL?
+
 - Commercial support
 - Transaction rates
+- not suitable for installation on small devices
+- security could be overkill for small applications
+- not available on many shared-hosting environments
 
 --
 
 ## Where to Get PostgreSQL
-  - https://www.postgresql.org/download/
+
+Can either be compiled from source or installed from binary packages. Easiest and recommended way is to install from latest, stable binary packages.
+
+  [https://www.postgresql.org/download](https://www.postgresql.org/download)
+
 
   ```sh
   sudo yum install postgresql-server postgresql-contrib
@@ -40,9 +60,13 @@
 
 ## Administration Tools
 ### psql
- - Commandline interface
- - can output HTML
- - Useful with ssh
+
+ - Useful with- command-line interface
+- included in all distributions
+- more detail: pg 276
+- can import and export CSV files
+- can generate HTML output
+- powerful tool for expert users ssh
 
 -- 
 
@@ -99,6 +123,18 @@ vacuumlo (1)         - remove orphaned large objects from a PostgreSQL database
 ### pgAdmin
  - https://www.pgadmin.org/
  - Genral GUI admin tool
+ - graphical client
+- platform independent
+- installs a web server and works through a web-browser
+- user-friendly but can't do everything the command-line client can
+- creation, maintenance and use of database objects
+- manage users
+- manage permissions
+- ad-hoc maintenance including VACUUM, ANALYZE, REINDEX and CLUSTER
+- import and export of data
+- backup and restore
+- query tool
+- can install optional pgAgent on the server for job scheduling
 
 ### phpPgAdmin
  - http://phppgadmin.sourceforge.net/doku.php
@@ -117,15 +153,65 @@ vacuumlo (1)         - remove orphaned large objects from a PostgreSQL database
  - https://dbeaver.io
  - https://github.com/dbeaver/dbeaver/wiki
 
+--
 
 ## PostgreSQL Database Objects
+ - Schemas
+ - Tables
+ - Views
+ - Functions
+ - Sequence
+
+--
+
 ## What’s New in Latest Versions of PostgreSQL?
 ### Why Upgrade?
+ - Features
+ - Bugs
+ - End of Life
+
+https://www.postgresql.org/support/versioning/
+
+--
+
+### Features Introduced in PostgreSQL 12
+
+[Release Notes](https://www.postgresql.org/docs/10/release-12.html)
+
+### Features Introduced in PostgreSQL 11
+
+[Release Notes](https://www.postgresql.org/docs/10/release-11.html)
+
 ### Features Introduced in PostgreSQL 10
+
+[Release Notes](https://www.postgresql.org/docs/10/release-10.html)
+
 ### Features Introduced in PostgreSQL 9.6
+
+[Release Notes](https://www.postgresql.org/docs/9.6/release-9-6.html)
+
 ### Features Introduced in PostgreSQL 9.5
+
+[Wiki](https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.4)
+
 ### Features Introduced in PostgreSQL 9.4
+
+[Wiki](https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.4)
+
+--
+
 ## Database Drivers
+
+- ODBC
+- JDBC - JAVA
+- .NET
+- Python
+- PHP
+- Perl
+And many more
+
+--
+
 ## Where to Get Help
 ## Notable PostgreSQL Forks
 
