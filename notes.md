@@ -213,13 +213,125 @@ And many more
 --
 
 ## Where to Get Help
+
+ - [Postgres Community](https://www.postgresql.org/list/pgsql-general/)
+ - Commercial Support
+   - [EnterpriseDB](https://www.enterprisedb.com/)
+   - [Cybertec](https://www.cybertec-postgresql.com/)
+
 ## Notable PostgreSQL Forks
+
+ - Redshift, Amazon
+ - EnterpriseDB
+ - [Wiki](https://wiki.postgresql.org/wiki/PostgreSQL_derived_databases)
+
+--
 
 # Database Administration
 ## Configuration Files
+
+CENTOS: /var/lib/pgsql/data
+ - postgresql.conf - Main Configuration file
+ - pg_hba.conf - Host Based Authentication
+ - pg_ident.conf - User Maps
+  
+~/
+ - .pgpass - Stored password for auto login
+ - .psql_history - previous psql commands for user
+
+--
+
 ### Making Configurations Take Effect
+
+Most changes require a reload, i.e. just reread config files.
+Some changes e.g. bind to different interface require restart.
+
+Reload
+- `pgctl reload`
+- `SELECT pg_reload_conf();`
+- `systemctl resload postgresql-10` - CENTOS
+
+Restart
+ - `systemctl restart postgresql-10` - CENTOS
+
 ### The postgresql.conf File
+
+Name and key value pairs like
+- listen_address = 'localhost'
+  
+Tuning params include:
+ - max_connections = 100
+ - shared_buffers = 2GB
+ - effective_cache_size = 6GB
+ - maintenance_work_mem = 512MB
+ - checkpoint_completion_target = 0.9
+ - wal_buffers = 16MB
+ - default_statistics_target = 100
+ - random_page_cost = 1.1
+ - effective_io_concurrency = 200
+ - work_mem = 5242kB
+ - min_wal_size = 1GB
+ - max_wal_size = 2GB
+ - max_worker_processes = 4
+ - max_parallel_workers_per_gather = 2
+ - max_parallel_workers = 4
+ 
+ --
+
 ### The pg_hba.conf File
+
+Controls who can connect to each database and from where.
+Consists of rows with the following fields.
+
+TYPE  DATABASE USER ADDRESS METHOD
+
+--
+
+TYPE:
+ - local - using the unix socket
+ - host - connection over TCP/IP socket ssl optional
+ - hostssl, hostnossl -  ssl not optional
+  
+---
+
+DATABASE
+ - "all" 
+ - "sameuser"
+ - "samerole"
+ - "replication" 
+ - database name
+ - comma-separated list 
+
+-- 
+
+USER
+
+ - "all"
+ - a user name
+ - a group name prefixed with "+" 
+ - comma-separated list
+
+file name prefixed with "@" to include names from a separate file.
+
+--
+
+METHOD
+ - "trust"
+ - "reject"
+ - "md5"
+ - "password"
+ - "scram-sha-256"
+ - "gss"
+ - "sspi"
+ - "ident"
+ - "peer"
+ - "pam"
+ - "ldap"
+ - "radius"
+ - "cert".
+
+--
+
 ## Managing Connections
 ## Check for Queries Being Blocked
 ## Roles
@@ -441,13 +553,18 @@ And many more
 ## Querying Other PostgreSQL Servers
 ## Querying Other Tabular Formats with ogr_fdw
 ## Querying Nonconventional Data Sources
-A. Installing PostgreSQL
-Windows and Desktop Linux
-CentOS, Fedora, Red Hat, Scientific Linux
-Debian, Ubuntu
-FreeBSD
-macOS
-B. PostgreSQL Packaged Command-Line Tools
+
+# Appendices
+## A. Installing PostgreSQL
+- Windows and Desktop Linux
+- CentOS, Fedora, Red Hat, Scientific Linux
+- Debian, Ubuntu
+- FreeBSD
+- macOS
+
+-- 
+
+## B. PostgreSQL Packaged Command-Line Tools
 Database Backup Using pg_dump
 Server Backup: pg_dumpall
 Database Restore: pg_restore
