@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>The Basics</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body class="vscode-light">
+        <h1 id="the-basics">The Basics</h1>
+<h2 id="postgresql-exams">PostgreSQL exams</h2>
+<p>EnterpriseDB has Postgresql exams</p>
+<p><a href="https://www.enterprisedb.com/training/postgres-certification">Exams</a></p>
+<ul>
+<li>The associate exam must be taken first</li>
+<li><a href="https://www.enterprisedb.com/training/free-postgres-training">Free Training Preparation for Associate Exam</a></li>
+</ul>
+<h2 id="why-postgresql">Why PostgreSQL?</h2>
+<ul>
+<li>Open Source</li>
+<li>Flexible</li>
+<li>Powerful</li>
+<li>enterprise-class relational database management system</li>
+<li>application platform</li>
+<li>faster than or matches that of many other databases</li>
+<li>large set of data types including JSON</li>
+<li>can create custom data types</li>
+<li>a data type is created for each table</li>
+<li>support for non-relational data via extensions
+<ul>
+<li>ltree: graphs</li>
+<li>hstore: key-value pair</li>
+</ul>
+</li>
+<li>20 years old</li>
+<li>platform independent</li>
+<li>new major release every year</li>
+<li>Can write stored procedures and functions in many languages
+<ul>
+<li>pgSQL / SQL</li>
+<li>Tcl</li>
+<li>Python</li>
+<li>Perl</li>
+<li>C</li>
+<li>C++</li>
+<li>R</li>
+<li>Java</li>
+<li>PHP</li>
+<li>Ruby</li>
+<li>Scheme</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://www.postgresql.org/about/featurematrix/">Features</a></p>
+<p><a href="https://www.postgresql.org/docs/12/limits.html">Limits</a></p>
+<p>--</p>
+<h2 id="why-not-postgresql">Why Not PostgreSQL?</h2>
+<ul>
+<li>Commercial support</li>
+<li>Transaction rates</li>
+<li>not suitable for installation on small devices</li>
+<li>security could be overkill for small applications</li>
+<li>not available on many shared-hosting environments</li>
+</ul>
+<p>--</p>
+<h2 id="where-to-get-postgresql">Where to Get PostgreSQL</h2>
+<p>Can either be compiled from source or installed from binary packages. Easiest and recommended way is to install from latest, stable binary packages.</p>
+<p><a href="https://www.postgresql.org/download">https://www.postgresql.org/download</a></p>
+<pre><code class="language-sh"><div>sudo yum install postgresql-server postgresql-contrib
+sudo postgresql-setup initdb
+sudo systemctl start postgresql
+</div></code></pre>
+<p>--</p>
+<h2 id="administration-tools">Administration Tools</h2>
+<h3 id="psql">psql</h3>
+<ul>
+<li>Useful with- command-line interface</li>
+<li>included in all distributions</li>
+<li>more detail: pg 276</li>
+<li>can import and export CSV files</li>
+<li>can generate HTML output</li>
+<li>powerful tool for expert users ssh</li>
+</ul>
+<p>--</p>
+<h3 id="other-shell-commands">Other shell commands</h3>
+<pre><code class="language-sh"><div><span class="hljs-comment"># man -k postgres | grep -v ':'</span>
+clusterdb (1)        - cluster a PostgreSQL database
+createdb (1)         - create a new PostgreSQL database
+createlang (1)       - define a new PostgreSQL procedural language
+createuser (1)       - define a new PostgreSQL user account
+dropdb (1)           - remove a PostgreSQL database
+droplang (1)         - remove a PostgreSQL procedural language
+dropuser (1)         - remove a PostgreSQL user account
+initdb (1)           - create a new PostgreSQL database cluster
+oid2name (1)         - resolve OIDs and file nodes <span class="hljs-keyword">in</span> a PostgreSQL data directory
+pg_archivecleanup (1) - clean up PostgreSQL WAL archive files
+pg_basebackup (1)    - take a base backup of a PostgreSQL cluster
+pg_controldata (1)   - display control information of a PostgreSQL database cluster
+pg_createcluster (8) - create a new PostgreSQL cluster
+pg_ctl (1)           - start, stop, or restart a PostgreSQL server
+pg_ctlcluster (8)    - start/stop/restart/reload a PostgreSQL cluster
+pg_dropcluster (8)   - completely delete a PostgreSQL cluster
+pg_dump (1)          - extract a PostgreSQL database into a script file or other archive file
+pg_dumpall (1)       - extract a PostgreSQL database cluster into a script file
+pg_isready (1)       - check the connection status of a PostgreSQL server
+pg_lsclusters (1)    - show information about all PostgreSQL clusters
+pg_receivexlog (1)   - streams transaction logs from a PostgreSQL cluster
+pg_resetxlog (1)     - reset the write-ahead <span class="hljs-built_in">log</span> and other control information of a PostgreSQL database cluster
+pg_restore (1)       - restore a PostgreSQL database from an archive file created by pg_dump
+pg_standby (1)       - supports the creation of a PostgreSQL warm standby server
+pg_test_fsync (1)    - determine fastest wal_sync_method <span class="hljs-keyword">for</span> PostgreSQL
+pg_updatedicts (8)   - build PostgreSQL dictionaries from myspell/hunspell ones
+pg_upgrade (1)       - upgrade a PostgreSQL server instance
+pg_upgradecluster (8) - upgrade an existing PostgreSQL cluster to a new major version.
+pg_virtualenv (1)    - Create a throw-away PostgreSQL environment <span class="hljs-keyword">for</span> running regression tests
+pg_wrapper (1)       - wrapper <span class="hljs-keyword">for</span> PostgreSQL client commands
+pg_xlogdump (1)      - Display a human-readable rendering of the write-ahead <span class="hljs-built_in">log</span> of a PostgreSQL database cluster
+pgbench (1)          - run a benchmark <span class="hljs-built_in">test</span> on PostgreSQL
+pgsql_table (5)      - Postfix PostgreSQL client configuration
+postgres (1)         - PostgreSQL database server
+postgresql-common (7) - wrapper <span class="hljs-keyword">for</span> PostgreSQL client commands
+postgresqlrc (5)     - Per-user PostgreSQL cluster configuration
+postmaster (1)       - PostgreSQL database server
+psql (1)             - PostgreSQL interactive terminal
+reindexdb (1)        - reindex a PostgreSQL database
+user_clusters (5)    - File linking users to PostgreSQL clusters
+vacuumdb (1)         - garbage-collect and analyze a PostgreSQL database
+vacuumlo (1)         - remove orphaned large objects from a PostgreSQL database
+</div></code></pre>
+<p><code>man</code> is a commandline tool for getting help on a shell command.  For any of the above command you can use man to get more information.  For example:</p>
+<p><code>man postgres</code></p>
+<p>--</p>
+<h3 id="pgadmin">pgAdmin</h3>
+<ul>
+<li><a href="https://www.pgadmin.org/">https://www.pgadmin.org/</a></li>
+<li>Genral GUI admin tool</li>
+<li>graphical client</li>
+<li>platform independent</li>
+<li>installs a web server and works through a web-browser</li>
+<li>user-friendly but can't do everything the command-line client can</li>
+<li>creation, maintenance and use of database objects</li>
+<li>manage users</li>
+<li>manage permissions</li>
+<li>ad-hoc maintenance including VACUUM, ANALYZE, REINDEX and CLUSTER</li>
+<li>import and export of data</li>
+<li>backup and restore</li>
+<li>query tool</li>
+<li>can install optional pgAgent on the server for job scheduling</li>
+</ul>
+<p><a href="https://www.syncfusion.com/ebooks/postgres">Free e-book</a> guide to PostgreSQL admin using pgAdmin.</p>
+<h3 id="phppgadmin">phpPgAdmin</h3>
+<ul>
+<li><a href="http://phppgadmin.sourceforge.net/doku.php">http://phppgadmin.sourceforge.net/doku.php</a></li>
+<li>Web based admin tool</li>
+<li>Often supplied by hosting companies</li>
+</ul>
+<p>--</p>
+<h3 id="adminer">Adminer</h3>
+<ul>
+<li><a href="https://www.adminer.org/">https://www.adminer.org/</a></li>
+<li>Works with MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, SimpleDB, Elasticsearch, MongoDB</li>
+</ul>
+<p>--</p>
+<h3 id="dbeaver">DBeaver</h3>
+<ul>
+<li><a href="https://dbeaver.io">https://dbeaver.io</a></li>
+<li><a href="https://github.com/dbeaver/dbeaver/wiki">https://github.com/dbeaver/dbeaver/wiki</a></li>
+</ul>
+<p>--</p>
+<h2 id="postgresql-database-objects">PostgreSQL Database Objects</h2>
+<ul>
+<li>Schemas</li>
+<li>Tables</li>
+<li>Views</li>
+<li>Functions</li>
+<li>Sequence</li>
+</ul>
+<p>--</p>
+<h2 id="whats-new-in-latest-versions-of-postgresql">What’s New in Latest Versions of PostgreSQL?</h2>
+<h3 id="why-upgrade">Why Upgrade?</h3>
+<ul>
+<li>Features</li>
+<li>Bugs</li>
+<li>End of Life</li>
+</ul>
+<p><a href="https://www.postgresql.org/support/versioning/">https://www.postgresql.org/support/versioning/</a></p>
+<p>--</p>
+<h3 id="features-introduced-in-postgresql-12">Features Introduced in PostgreSQL 12</h3>
+<p><a href="https://www.postgresql.org/docs/10/release-12.html">Release Notes</a></p>
+<h3 id="features-introduced-in-postgresql-11">Features Introduced in PostgreSQL 11</h3>
+<p><a href="https://www.postgresql.org/docs/10/release-11.html">Release Notes</a></p>
+<h3 id="features-introduced-in-postgresql-10">Features Introduced in PostgreSQL 10</h3>
+<p><a href="https://www.postgresql.org/docs/10/release-10.html">Release Notes</a></p>
+<h3 id="features-introduced-in-postgresql-96">Features Introduced in PostgreSQL 9.6</h3>
+<p><a href="https://www.postgresql.org/docs/9.6/release-9-6.html">Release Notes</a></p>
+<h3 id="features-introduced-in-postgresql-95">Features Introduced in PostgreSQL 9.5</h3>
+<p><a href="https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.4">Wiki</a></p>
+<h3 id="features-introduced-in-postgresql-94">Features Introduced in PostgreSQL 9.4</h3>
+<p><a href="https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.4">Wiki</a></p>
+<p>--</p>
+<h2 id="database-drivers">Database Drivers</h2>
+<ul>
+<li>ODBC</li>
+<li>JDBC - JAVA</li>
+<li>.NET</li>
+<li>Python</li>
+<li>PHP</li>
+<li>Perl
+And many more</li>
+</ul>
+<p>--</p>
+<h2 id="where-to-get-help">Where to Get Help</h2>
+<ul>
+<li><a href="https://www.postgresql.org/list/pgsql-general/">Postgres Community</a></li>
+<li>Commercial Support
+<ul>
+<li><a href="https://www.enterprisedb.com/">EnterpriseDB</a></li>
+<li><a href="https://www.cybertec-postgresql.com/">Cybertec</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="notable-postgresql-forks">Notable PostgreSQL Forks</h2>
+<ul>
+<li>Redshift, Amazon</li>
+<li>EnterpriseDB</li>
+<li><a href="https://wiki.postgresql.org/wiki/PostgreSQL_derived_databases">Wiki</a></li>
+</ul>
+<p>--</p>
+<h1 id="database-administration">Database Administration</h1>
+<h2 id="configuration-files">Configuration Files</h2>
+<p>CENTOS: /var/lib/pgsql/data</p>
+<ul>
+<li>postgresql.conf - Main Configuration file</li>
+<li>pg_hba.conf - Host Based Authentication</li>
+<li>pg_ident.conf - User Maps</li>
+</ul>
+<p>~/</p>
+<ul>
+<li>.pgpass - Stored password for auto login</li>
+<li>.psql_history - previous psql commands for user</li>
+<li>.psqlrc - local configuration for the psql client software.</li>
+</ul>
+<p>--</p>
+<h3 id="making-configurations-take-effect">Making Configurations Take Effect</h3>
+<p>Most changes require a reload, i.e. just reread config files.
+Some changes e.g. bind to different interface require restart.</p>
+<p>Reload</p>
+<ul>
+<li><code>pgctl reload</code></li>
+<li><code>SELECT pg_reload_conf();</code></li>
+<li><code>systemctl resload postgresql-10</code> - Recommended on CENTOS</li>
+</ul>
+<p>Restart</p>
+<ul>
+<li><code>systemctl restart postgresql-10</code> - Recommended on CENTOS</li>
+</ul>
+<h3 id="the-postgresqlconf-file">The postgresql.conf File</h3>
+<p>This is the main configuration file for the PostgreSQL Server.</p>
+<p>On CENTOS you can edit the file using VI or Nano as follows:</p>
+<p><code>vim /var/lib/pgsql/11/data/postgresql.conf</code></p>
+<p>or</p>
+<p><code>nano /var/lib/pgsql/11/data/postgresql.conf</code></p>
+<p>The file contains name and key value pairs like:</p>
+<ul>
+<li><code>listen_address = 'localhost'</code></li>
+</ul>
+<p>Tuning params include:</p>
+<ul>
+<li>max_connections = 100</li>
+<li>shared_buffers = 2GB</li>
+<li>effective_cache_size = 6GB</li>
+<li>maintenance_work_mem = 512MB</li>
+<li>checkpoint_completion_target = 0.9</li>
+<li>wal_buffers = 16MB</li>
+<li>default_statistics_target = 100</li>
+<li>random_page_cost = 1.1</li>
+<li>effective_io_concurrency = 200</li>
+<li>work_mem = 5242kB</li>
+<li>min_wal_size = 1GB</li>
+<li>max_wal_size = 2GB</li>
+<li>max_worker_processes = 4</li>
+<li>max_parallel_workers_per_gather = 2</li>
+<li>max_parallel_workers = 4</li>
+</ul>
+<p>Good staring values for these params can be obtained from:
+<a href="https://pgtune.leopard.in.ua">pgTune</a></p>
+<p>--</p>
+<h3 id="the-pghbaconf-file">The pg_hba.conf File</h3>
+<p>Controls who can connect to each database and from where.
+Consists of rows with the following fields.</p>
+<p><code>TYPE DATABASE USER ADDRESS METHOD</code></p>
+<p>--</p>
+<p>TYPE:</p>
+<ul>
+<li>local - using the unix socket</li>
+<li>host - connection over TCP/IP socket ssl optional</li>
+<li>hostssl, hostnossl -  ssl not optional</li>
+</ul>
+<p>DATABASE</p>
+<ul>
+<li>&quot;all&quot;</li>
+<li>&quot;sameuser&quot;</li>
+<li>&quot;samerole&quot;</li>
+<li>&quot;replication&quot;</li>
+<li>database name</li>
+<li>comma-separated list</li>
+</ul>
+<p>--</p>
+<p>USER</p>
+<ul>
+<li>&quot;all&quot;</li>
+<li>a user name</li>
+<li>a group name prefixed with &quot;+&quot;</li>
+<li>comma-separated list</li>
+</ul>
+<p>file name prefixed with &quot;@&quot; to include names from a separate file.</p>
+<p>--</p>
+<p>METHOD</p>
+<ul>
+<li>&quot;trust&quot;</li>
+<li>&quot;reject&quot;</li>
+<li>&quot;md5&quot;</li>
+<li>&quot;password&quot;</li>
+<li>&quot;scram-sha-256&quot;</li>
+<li>&quot;gss&quot;</li>
+<li>&quot;sspi&quot;</li>
+<li>&quot;ident&quot;</li>
+<li>&quot;peer&quot;</li>
+<li>&quot;pam&quot;</li>
+<li>&quot;ldap&quot;</li>
+<li>&quot;radius&quot;</li>
+<li>&quot;cert&quot;.</li>
+</ul>
+<p>--</p>
+<h2 id="managing-connections">Managing Connections</h2>
+<ul>
+<li>
+<p>view activity</p>
+<ul>
+<li><code>pg_stat_activity;</code></li>
+</ul>
+</li>
+<li>
+<p><code>pg_&lt;terminate|cancel&gt;_backend</code></p>
+</li>
+<li>
+<p>Config Parameters</p>
+<ul>
+<li>deadlock_timeout</li>
+<li>statement_timeout</li>
+<li>lock_timeout</li>
+<li>idle_in_transaction_session_timeout</li>
+</ul>
+</li>
+</ul>
+<p>--</p>
+<h2 id="check-for-queries-being-blocked">Check for Queries Being Blocked</h2>
+<ul>
+<li>New features to pg_stat_activities</li>
+</ul>
+<h2 id="roles">Roles</h2>
+<ul>
+<li>Role based access control.
+<ul>
+<li>user is a role that can login</li>
+<li>group is role with members</li>
+<li>a role may be both</li>
+</ul>
+</li>
+</ul>
+<h3 id="creating-login-roles">Creating Login Roles</h3>
+<ul>
+<li>CREATE ROLE
+<ul>
+<li>LOGIN - is a user i.e. can login</li>
+<li>PASSWORD - followed by password</li>
+<li>CREATDB - user can create databases.</li>
+</ul>
+</li>
+<li>CREATE USER - same</li>
+<li><code>man createuser</code> shell command</li>
+</ul>
+<h3 id="creating-group-roles">Creating Group Roles</h3>
+<ul>
+<li>CREATE ROLE/GROUP</li>
+<li>GRANT group_role TO user_role</li>
+<li>SET ROLE</li>
+</ul>
+<h2 id="database-creation">Database Creation</h2>
+<ul>
+<li>CREATE DATABASE</li>
+<li>createdb shell command</li>
+</ul>
+<h2 id="template-databases">Template Databases</h2>
+<ul>
+<li>default template1</li>
+<li>CREATE DATABASE db_name TEMPLATE my_template</li>
+</ul>
+<h2 id="using-schemas">Using Schemas</h2>
+<ul>
+<li><code>CREATE SCHEMA schema_name</code></li>
+<li><code>show search_path</code></li>
+<li><code>SET search_path schema_name</code></li>
+</ul>
+<h2 id="privileges">Privileges</h2>
+<h3 id="types-of-privileges">Types of Privileges</h3>
+<p>GRANT <code>ALL</code> includes:</p>
+<ul>
+<li>SELECT</li>
+<li>INSERT</li>
+<li>UPDATE</li>
+<li>ALTER</li>
+<li>DELETE</li>
+<li>TRUNCATE</li>
+<li>EXECUTE</li>
+</ul>
+<p>TO:</p>
+<ul>
+<li>role</li>
+</ul>
+<p>ON:</p>
+<ul>
+<li>DATABASE (does not necessarily include tables in db)</li>
+<li>TABLE</li>
+<li>TABLES in SCHEMA</li>
+<li>columns</li>
+</ul>
+<p>WITH GRANT OPTION:</p>
+<ul>
+<li>allows user to give permissions to others</li>
+</ul>
+<p>CREATE privilege is given using CREATE or ALTER
+DROP privilege resides the the OWNER of the database.</p>
+<h2 id="extensions">Extensions</h2>
+<h3 id="installing-extensions">Installing Extensions</h3>
+<pre><code class="language-sh"><div>sudo yum install postgesql11-contrib
+</div></code></pre>
+<p>Using pg_stat_statements extensios
+<a href="https://www.cybertec-postgresql.com/en/3-ways-to-detect-slow-queries-in-postgresql/">Article</a></p>
+<h3 id="common-extensions">Common Extensions</h3>
+<h2 id="backup-and-restore">Backup and Restore</h2>
+<h3 id="selective-backup-using-pgdump">Selective Backup Using pg_dump</h3>
+<p>Can create either a plain text SQL dump or a custom format backup:</p>
+<ul>
+<li><code>pg_dump database_name</code> &quot;SQL dump&quot;</li>
+<li><code>pg_dump -Fc database_name</code> Custom format</li>
+<li><code>pg_dump -Fd</code> use directory i.e. mutiple files.</li>
+</ul>
+<h3 id="creating-a-porable-sql-dump-file">Creating a porable SQL dump file</h3>
+<p>We can compress the output of an SQL dump using <code>pg_dump</code> and an external file:</p>
+<pre><code class="language-sh"><div>$  sudo -u postgres pg_dump northwind &gt; northwind_dump.sql
+$  sudo -u postgres pg_dump northwind | gzip &gt; northwind_dump.sql.gz
+$  sudo -u postgres pg_dump northwind | bzip2 &gt; northwind_dump.sql.bz2
+$  sudo -u postgres pg_dump northwind | compress &gt; northwind_dump.sql.Z
+$ ls -sh  northwind_dump.sql*
+208K northwind_dump.sql   36K northwind_dump.sql.bz2   48K northwind_dump.sql.gz   48K northwind_dump.sql.gz.bz2   76K northwind_dump.sql.Z
+
+</div></code></pre>
+<h3 id="using-the-%22custom-format%22">Using the &quot;Custom format&quot;</h3>
+<p>Sing file backup</p>
+<pre><code class="language-sh"><div>$  sudo -u postgres pg_dump -Fc northwind -f northwind.backup
+</div></code></pre>
+<p>Multi file backup (1 file per table)</p>
+<pre><code class="language-sh"><div>$  sudo -u postgres pg_dump -Fd northwind -f backup/
+</div></code></pre>
+<p>Viewing the output</p>
+<pre><code class="language-sh"><div>$ ls -l northwind.backup backup/
+-rw-rw-r--. 1 student student 55523 Oct 25 10:25 northwind.backup
+
+backup/:
+total 76
+-rw-rw-r--. 1 student student   250 Oct 25 10:28 3756.dat.gz
+-rw-rw-r--. 1 student student  5328 Oct 25 10:28 3757.dat.gz
+-rw-rw-r--. 1 student student  1312 Oct 25 10:28 3758.dat.gz
+-rw-rw-r--. 1 student student 11219 Oct 25 10:28 3759.dat.gz
+-rw-rw-r--. 1 student student 20227 Oct 25 10:28 3760.dat.gz
+-rw-rw-r--. 1 student student  2011 Oct 25 10:28 3761.dat.gz
+-rw-rw-r--. 1 student student   103 Oct 25 10:28 3762.dat.gz
+-rw-rw-r--. 1 student student  2102 Oct 25 10:28 3763.dat.gz
+-rw-rw-r--. 1 student student    25 Oct 25 10:28 3764.dat.gz
+-rw-rw-r--. 1 student student 12251 Oct 25 10:28 toc.dat
+
+</div></code></pre>
+<h3 id="systemwide-backup-using-pgdumpall">Systemwide Backup Using pg_dumpall</h3>
+<p>see <code>man pg_dumpall</code></p>
+<ul>
+<li>SQL dump format</li>
+<li>includes database creation commands</li>
+</ul>
+<h3 id="restoring-data-from-sql-dump">Restoring Data from SQL dump</h3>
+<p>Typically a <code>pg_dump</code> packup is restored into an empty data base:</p>
+<pre><code class="language-sh"><div>createdb -U admin restore;
+psql -U admin restore &lt; northwind_dump.sql
+</div></code></pre>
+<p>or</p>
+<pre><code class="language-sh"><div>zcat northwind_dump.sql.gz | psql -U admin restore 
+</div></code></pre>
+<p>or</p>
+<pre><code class="language-sh"><div>bzcat northwind_dump.sql.bz2 | psql -U admin restore 
+</div></code></pre>
+<h3 id="restoring-data-from-custom-format-backup">Restoring Data from custom format backup</h3>
+<p>Restore usine the <code>pg_restore</code> command</p>
+<pre><code class="language-sh"><div>sudo -u postgres pg_restore -d northwind /tmp/northwind.backup
+</div></code></pre>
+<h2 id="managing-disk-storage-with-tablespaces">Managing Disk Storage with Tablespaces</h2>
+<p>Table spaces are alternate disk locations where tables or entire databases may be stored</p>
+<h3 id="creating-tablespaces">Creating Tablespaces</h3>
+<pre><code class="language-sh"><div>postgres=<span class="hljs-comment"># \h create tablespace</span>
+Command:     CREATE TABLESPACE
+Description: define a new tablespace
+Syntax:
+CREATE TABLESPACE tablespace_name
+    [ OWNER { new_owner | CURRENT_USER | SESSION_USER } ]
+    LOCATION <span class="hljs-string">'directory'</span>
+    [ WITH ( tablespace_option = value [, ... ] ) ]
+</div></code></pre>
+<h3 id="moving-objects-among-tablespaces">Moving Objects Among Tablespaces</h3>
+<pre><code class="language-sh"><div>ALTER DATABASE name SET TABLESPACE new_tablespace
+
+ALTER TABLE ... name ...  SET TABLESPACE new_tablespace
+</div></code></pre>
+<h2 id="verboten-practices">Verboten Practices</h2>
+<ul>
+<li>Don’t Delete PostgreSQL Core System Files and Binaries</li>
+<li>Don’t Grant Full OS Administrative Privileges to the Postgres System Account (postgres)</li>
+<li>Don’t Set shared_buffers Too High</li>
+<li>Don’t Try to Start PostgreSQL on a Port Already in Use</li>
+</ul>
+<h1 id="psql-1">psql</h1>
+<h2 id="environment-variables">Environment Variables</h2>
+<h2 id="interactive-versus-noninteractive-psql">Interactive versus Noninteractive psql</h2>
+<h2 id="psql-customizations">psql Customizations</h2>
+<h3 id="custom-prompts">Custom Prompts</h3>
+<h3 id="timing-executions">Timing Executions</h3>
+<h3 id="autocommit-commands">Autocommit Commands</h3>
+<h3 id="shortcuts">Shortcuts</h3>
+<h3 id="retrieving-prior-commands">Retrieving Prior Commands</h3>
+<h2 id="psql-gems">psql Gems</h2>
+<h3 id="executing-shell-commands">Executing Shell Commands</h3>
+<h3 id="watching-statements">Watching Statements</h3>
+<h3 id="retrieving-details-of-database-objects">Retrieving Details of Database Objects</h3>
+<h3 id="crosstabs">Crosstabs</h3>
+<h3 id="dynamic-sql-execution">Dynamic SQL Execution</h3>
+<h2 id="importing-and-exporting-data">Importing and Exporting Data</h2>
+<h3 id="psql-import">psql Import</h3>
+<h3 id="psql-export">psql Export</h3>
+<h3 id="copying-from-or-to-program">Copying from or to Program</h3>
+<h2 id="basic-reporting">Basic Reporting</h2>
+<h1 id="using-pgadmin">Using pgAdmin</h1>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="overview-of-features">Overview of Features</h3>
+<h3 id="connecting-to-a-postgresql-server">Connecting to a PostgreSQL Server</h3>
+<h3 id="navigating-pgadmin">Navigating pgAdmin</h3>
+<h2 id="pgadmin-features">pgAdmin Features</h2>
+<h3 id="autogenerating-queries-from-table-definitions">Autogenerating Queries from Table Definitions</h3>
+<h3 id="accessing-psql-from-pgadmin3">Accessing psql from pgAdmin3</h3>
+<h3 id="editing-postgresqlconf-and-pghbaconf-from-pgadmin3">Editing postgresql.conf and pg_hba.conf from pgAdmin3</h3>
+<h3 id="creating-database-assets-and-setting-privileges">Creating Database Assets and Setting Privileges</h3>
+<h3 id="import-and-export">Import and Export</h3>
+<h3 id="backup-and-restore-1">Backup and Restore</h3>
+<h2 id="pgscript">pgScript</h2>
+<h2 id="graphical-explain">Graphical Explain</h2>
+<h2 id="job-scheduling-with-pgagent">Job Scheduling with pgAgent</h2>
+<h3 id="installing-pgagent">Installing pgAgent</h3>
+<h3 id="scheduling-jobs">Scheduling Jobs</h3>
+<h3 id="helpful-pgagent-queries">Helpful pgAgent Queries</h3>
+<h1 id="data-types">Data Types</h1>
+<h2 id="numerics">Numerics</h2>
+<h3 id="serials">Serials</h3>
+<p>PostgreSQL - SERIAL - Generate IDs (Identity, Auto-increment) SERIAL data type allows you to automatically generate unique integer numbers (IDs, identity, auto-increment, sequence) for a column.</p>
+<h3 id="generate-series-function">Generate Series Function</h3>
+<pre><code class="language-sh"><div>SELECT * 
+FROM generate_series(1, 5);
+ generate_series
+-----------------
+               1
+               2
+               3
+               4
+               5
+</div></code></pre>
+<h2 id="textuals">Textuals</h2>
+<h3 id="string-functions">String Functions</h3>
+<h3 id="splitting-strings-into-arrays-tables-or-substrings">Splitting Strings into Arrays, Tables, or Substrings</h3>
+<h3 id="regular-expressions-and-pattern-matching">Regular Expressions and Pattern Matching</h3>
+<h2 id="temporals">Temporals</h2>
+<h3 id="time-zones-what-they-are-and-are-not">Time Zones: What They Are and Are Not</h3>
+<h3 id="datetime-operators-and-functions">Datetime Operators and Functions</h3>
+<h2 id="arrays">Arrays</h2>
+<h3 id="array-constructors">Array Constructors</h3>
+<h3 id="unnesting-arrays-to-rows">Unnesting Arrays to Rows</h3>
+<h3 id="array-slicing-and-splicing">Array Slicing and Splicing</h3>
+<h3 id="referencing-elements-in-an-array">Referencing Elements in an Array</h3>
+<h3 id="array-containment-checks">Array Containment Checks</h3>
+<h2 id="range-types">Range Types</h2>
+<h3 id="discrete-versus-continuous-ranges">Discrete Versus Continuous Ranges</h3>
+<h3 id="built-in-range-types">Built-in Range Types</h3>
+<h3 id="defining-ranges">Defining Ranges</h3>
+<h3 id="defining-tables-with-ranges">Defining Tables with Ranges</h3>
+<h3 id="range-operators">Range Operators</h3>
+<h2 id="json">JSON</h2>
+<h3 id="inserting-json-data">Inserting JSON Data</h3>
+<h3 id="querying-json">Querying JSON</h3>
+<h3 id="outputting-json">Outputting JSON</h3>
+<h3 id="binary-json-jsonb">Binary JSON: jsonb</h3>
+<h3 id="editing-jsonb-data">Editing JSONB data</h3>
+<h2 id="xml">XML</h2>
+<h3 id="inserting-xml-data">Inserting XML Data</h3>
+<h3 id="querying-xml-data">Querying XML Data</h3>
+<h2 id="full-text-search">Full Text Search</h2>
+<h3 id="fts-configurations">FTS Configurations</h3>
+<h3 id="tsvectors">TSVectors</h3>
+<h3 id="tsqueries">TSQueries</h3>
+<h3 id="using-full-text-search">Using Full Text Search</h3>
+<h3 id="ranking-results">Ranking Results</h3>
+<h3 id="full-text-stripping">Full Text Stripping</h3>
+<h3 id="full-text-support-for-json-and-jsonb">Full Text Support for JSON and JSONB</h3>
+<h2 id="custom-and-composite-data-types">Custom and Composite Data Types</h2>
+<h3 id="all-tables-are-custom-data-types">All Tables Are Custom Data Types</h3>
+<h3 id="building-custom-data-types">Building Custom Data Types</h3>
+<h3 id="composites-and-nulls">Composites and NULLs</h3>
+<h3 id="building-operators-and-functions-for-custom-types">Building Operators and Functions for Custom Types</h3>
+<h1 id="tables-constraints-and-indexes">Tables, Constraints, and Indexes</h1>
+<h2 id="tables">Tables</h2>
+<h3 id="basic-table-creation">Basic Table Creation</h3>
+<h3 id="inherited-tables">Inherited Tables</h3>
+<h3 id="partitioned-tables">Partitioned Tables</h3>
+<h3 id="unlogged-tables">Unlogged Tables</h3>
+<h3 id="type-of">TYPE OF</h3>
+<h2 id="constraints">Constraints</h2>
+<h3 id="foreign-key-constraints">Foreign Key Constraints</h3>
+<h3 id="unique-constraints">Unique Constraints</h3>
+<h3 id="check-constraints">Check Constraints</h3>
+<h3 id="exclusion-constraints">Exclusion Constraints</h3>
+<h2 id="indexes">Indexes</h2>
+<h3 id="postgresql-stock-indexes">PostgreSQL Stock Indexes</h3>
+<h3 id="operator-classes">Operator Classes</h3>
+<h3 id="functional-indexes">Functional Indexes</h3>
+<h3 id="partial-indexes">Partial Indexes</h3>
+<h3 id="multicolumn-indexes">Multicolumn Indexes</h3>
+<h1 id="sql-the-postgresql-way">SQL: The PostgreSQL Way</h1>
+<p>see <a href="https://www.postgresql.org/docs/10/tutorial.html">Tutorial Intro to PostgreSQL</a></p>
+<h2 id="views">Views</h2>
+<h3 id="using-triggers-to-update-views">Using Triggers to Update Views</h3>
+<p>Using rules:</p>
+<pre><code class="language-sh"><div>CREATE [ OR REPLACE ] RULE name AS ON event
+    TO table [ WHERE condition ]
+    DO [ ALSO | INSTEAD ] { NOTHING | <span class="hljs-built_in">command</span> | ( <span class="hljs-built_in">command</span> ; <span class="hljs-built_in">command</span> ... ) }
+</div></code></pre>
+<h3 id="materialized-views">Materialized Views</h3>
+<h2 id="handy-constructions">Handy Constructions</h2>
+<h3 id="distinct-on">DISTINCT ON</h3>
+<h3 id="limit-and-offset">LIMIT and OFFSET</h3>
+<h3 id="shorthand-casting">Shorthand Casting</h3>
+<h3 id="multirow-insert">Multirow Insert</h3>
+<h3 id="ilike-for-case-insensitive-search">ILIKE for Case-Insensitive Search</h3>
+<h3 id="any-array-search">ANY Array Search</h3>
+<h3 id="set-returning-functions-in-select">Set-Returning Functions in SELECT</h3>
+<h3 id="restricting-delete-update-and-select-from-inherited-tables">Restricting DELETE, UPDATE, and SELECT from Inherited Tables</h3>
+<h3 id="delete-using">DELETE USING</h3>
+<h3 id="returning-affected-records-to-the-user">Returning Affected Records to the User</h3>
+<h3 id="upserts-insert-on-conflict-update">UPSERTs: INSERT ON CONFLICT UPDATE</h3>
+<h3 id="composite-types-in-queries">Composite Types in Queries</h3>
+<h3 id="dollar-quoting">Dollar Quoting</h3>
+<h3 id="do">DO</h3>
+<h3 id="filter-clause-for-aggregates">FILTER Clause for Aggregates</h3>
+<h3 id="percentiles-and-mode">Percentiles and Mode</h3>
+<h2 id="window-functions">Window Functions</h2>
+<h3 id="partition-by">PARTITION BY</h3>
+<h3 id="order-by">ORDER BY</h3>
+<h2 id="common-table-expressions">Common Table Expressions</h2>
+<h3 id="basic-ctes">Basic CTEs</h3>
+<h3 id="writable-ctes">Writable CTEs</h3>
+<h3 id="recursive-cte">Recursive CTE</h3>
+<h2 id="lateral-joins">Lateral Joins</h2>
+<h2 id="with-ordinality">WITH ORDINALITY</h2>
+<h2 id="grouping-sets-cube-rollup">GROUPING SETS, CUBE, ROLLUP</h2>
+<h1 id="writing-functions">Writing Functions</h1>
+<h2 id="anatomy-of-postgresql-functions">Anatomy of PostgreSQL Functions</h2>
+<h3 id="function-basics">Function Basics</h3>
+<h3 id="triggers-and-trigger-functions">Triggers and Trigger Functions</h3>
+<h3 id="aggregates">Aggregates</h3>
+<h3 id="trusted-and-untrusted-languages">Trusted and Untrusted Languages</h3>
+<h2 id="writing-functions-with-sql">Writing Functions with SQL</h2>
+<h3 id="basic-sql-function">Basic SQL Function</h3>
+<h3 id="writing-sql-aggregate-functions">Writing SQL Aggregate Functions</h3>
+<h3 id="writing-plpgsql-functions">Writing PL/pgSQL Functions</h3>
+<h2 id="basic-plpgsql-function">Basic PL/pgSQL Function</h2>
+<h3 id="writing-trigger-functions-in-plpgsql">Writing Trigger Functions in PL/pgSQL</h3>
+<h2 id="writing-plpython-functions">Writing PL/Python Functions</h2>
+<h3 id="basic-python-function">Basic Python Function</h3>
+<h2 id="writing-plv8-plcoffeescript-and-pllivescript-functions">Writing PL/V8, PL/CoffeeScript, and PL/LiveScript Functions</h2>
+<h3 id="basic-functions">Basic Functions</h3>
+<h3 id="writing-aggregate-functions-with-plv8">Writing Aggregate Functions with PL/V8</h3>
+<h3 id="writing-window-functions-in-plv8">Writing Window Functions in PL/V8</h3>
+<h1 id="query-performance-tuning">Query Performance Tuning</h1>
+<h2 id="explain">EXPLAIN</h2>
+<h3 id="explain-options">EXPLAIN Options</h3>
+<h3 id="sample-runs-and-output">Sample Runs and Output</h3>
+<h3 id="graphical-outputs">Graphical Outputs</h3>
+<h2 id="gathering-statistics-on-statements">Gathering Statistics on Statements</h2>
+<h2 id="writing-better-queries">Writing Better Queries</h2>
+<h3 id="overusing-subqueries-in-select">Overusing Subqueries in SELECT</h3>
+<h3 id="avoid-select">Avoid SELECT <code>*</code></h3>
+<h3 id="make-good-use-of-case">Make Good Use of CASE</h3>
+<h3 id="using-filter-instead-of-case">Using FILTER Instead of CASE</h3>
+<h2 id="parallelized-queries">Parallelized Queries</h2>
+<h3 id="what-does-a-parallel-query-plan-look-like">What Does a Parallel Query Plan Look Like?</h3>
+<h3 id="parallel-scans">Parallel Scans</h3>
+<h3 id="parallel-joins">Parallel Joins</h3>
+<h2 id="guiding-the-query-planner">Guiding the Query Planner</h2>
+<h3 id="strategy-settings">Strategy Settings</h3>
+<h3 id="how-useful-is-your-index">How Useful Is Your Index?</h3>
+<h3 id="table-statistics">Table Statistics</h3>
+<h3 id="random-page-cost-and-quality-of-drives">Random Page Cost and Quality of Drives</h3>
+<h2 id="caching">Caching</h2>
+<h1 id="replication-and-external-data">Replication and External Data</h1>
+<h2 id="replication-overview">Replication Overview</h2>
+<ul>
+<li>transaction plug slony, pg_pool</li>
+<li>log shipping copy wall file to the remote machine</li>
+<li>1 streaming replication</li>
+<li>logical replication</li>
+</ul>
+<h2 id="replication-jargon">Replication Jargon</h2>
+<h2 id="evolution-of-postgresql-replication">Evolution of PostgreSQL Replication</h2>
+<h2 id="third-party-replication-options">Third-Party Replication Options</h2>
+<h2 id="setting-up-full-server-replication">Setting Up Full Server Replication</h2>
+<h2 id="configuring-the-master">Configuring the Master</h2>
+<h2 id="configuring-the-slaves-for-full-server-cluster-replication">Configuring the Slaves for Full Server Cluster Replication</h2>
+<h2 id="initiating-the-streaming-replication-process">Initiating the Streaming Replication Process</h2>
+<h2 id="replicating-only-some-tables-or-databases-with-logical-replication">Replicating Only Some Tables or Databases with Logical Replication</h2>
+<h2 id="foreign-data-wrappers">Foreign Data Wrappers</h2>
+<h2 id="querying-flat-files">Querying Flat Files</h2>
+<h2 id="querying-flat-files-as-jagged-arrays">Querying Flat Files as Jagged Arrays</h2>
+<h2 id="querying-other-postgresql-servers">Querying Other PostgreSQL Servers</h2>
+<h2 id="querying-other-tabular-formats-with-ogrfdw">Querying Other Tabular Formats with ogr_fdw</h2>
+<h2 id="querying-nonconventional-data-sources">Querying Nonconventional Data Sources</h2>
+<h1 id="appendices">Appendices</h1>
+<h2 id="a-installing-postgresql">A. Installing PostgreSQL</h2>
+<ul>
+<li>Windows and Desktop Linux</li>
+<li>CentOS, Fedora, Red Hat, Scientific Linux</li>
+<li>Debian, Ubuntu</li>
+<li>FreeBSD</li>
+<li>macOS</li>
+</ul>
+<p>--</p>
+<h2 id="b-postgresql-packaged-command-line-tools">B. PostgreSQL Packaged Command-Line Tools</h2>
+<p>Database Backup Using pg_dump
+Server Backup: pg_dumpall
+Database Restore: pg_restore
+psql Interactive Commands
+psql Noninteractive Commands</p>
+
+    </body>
+    </html>

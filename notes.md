@@ -1,4 +1,14 @@
 # The Basics
+
+## PostgreSQL exams
+
+EnterpriseDB has Postgresql exams
+
+[Exams](https://www.enterprisedb.com/training/postgres-certification)
+
+- The associate exam must be taken first
+- [Free Training Preparation for Associate Exam](https://www.enterprisedb.com/training/free-postgres-training)
+
 ## Why PostgreSQL?
 
 - Open Source
@@ -34,6 +44,7 @@
 [Limits](https://www.postgresql.org/docs/12/limits.html)
 
 --
+
 ## Why Not PostgreSQL?
 
 - Commercial support
@@ -118,6 +129,10 @@ vacuumdb (1)         - garbage-collect and analyze a PostgreSQL database
 vacuumlo (1)         - remove orphaned large objects from a PostgreSQL database
 ```
 
+`man` is a commandline tool for getting help on a shell command.  For any of the above command you can use man to get more information.  For example:
+
+`man postgres`
+
  --
 
 ### pgAdmin
@@ -135,6 +150,9 @@ vacuumlo (1)         - remove orphaned large objects from a PostgreSQL database
 - backup and restore
 - query tool
 - can install optional pgAgent on the server for job scheduling
+
+[Free e-book](https://www.syncfusion.com/ebooks/postgres) guide to PostgreSQL admin using pgAdmin.
+
 
 ### phpPgAdmin
  - http://phppgadmin.sourceforge.net/doku.php
@@ -238,6 +256,7 @@ CENTOS: /var/lib/pgsql/data
 ~/
  - .pgpass - Stored password for auto login
  - .psql_history - previous psql commands for user
+ - .psqlrc - local configuration for the psql client software.
 
 --
 
@@ -249,15 +268,26 @@ Some changes e.g. bind to different interface require restart.
 Reload
 - `pgctl reload`
 - `SELECT pg_reload_conf();`
-- `systemctl resload postgresql-10` - CENTOS
+- `systemctl resload postgresql-10` - Recommended on CENTOS
 
 Restart
- - `systemctl restart postgresql-10` - CENTOS
+ - `systemctl restart postgresql-10` - Recommended on CENTOS
 
 ### The postgresql.conf File
 
-Name and key value pairs like
-- listen_address = 'localhost'
+This is the main configuration file for the PostgreSQL Server.
+
+On CENTOS you can edit the file using VI or Nano as follows:
+
+`vim /var/lib/pgsql/11/data/postgresql.conf`
+
+or 
+
+`nano /var/lib/pgsql/11/data/postgresql.conf`
+
+The file contains name and key value pairs like:
+
+- `listen_address = 'localhost'`
   
 Tuning params include:
  - max_connections = 100
@@ -276,6 +306,9 @@ Tuning params include:
  - max_parallel_workers_per_gather = 2
  - max_parallel_workers = 4
  
+Good staring values for these params can be obtained from:
+[pgTune](https://pgtune.leopard.in.ua)
+
  --
 
 ### The pg_hba.conf File
@@ -283,7 +316,7 @@ Tuning params include:
 Controls who can connect to each database and from where.
 Consists of rows with the following fields.
 
-TYPE  DATABASE USER ADDRESS METHOD
+`TYPE  DATABASE USER ADDRESS METHOD`
 
 --
 
@@ -292,7 +325,6 @@ TYPE:
  - host - connection over TCP/IP socket ssl optional
  - hostssl, hostnossl -  ssl not optional
   
----
 
 DATABASE
  - "all" 
@@ -333,34 +365,227 @@ METHOD
 --
 
 ## Managing Connections
+
+ - view activity
+    - `pg_stat_activity;`
+- `pg_<terminate|cancel>_backend`
+
+- Config Parameters
+    - deadlock_timeout
+    - statement_timeout
+    - lock_timeout
+    - idle_in_transaction_session_timeout
+
+--
+
 ## Check for Queries Being Blocked
+
+ - New features to pg_stat_activities
+
 ## Roles
+
+ - Role based access control.
+    - user is a role that can login
+    - group is role with members
+    - a role may be both
+
 ### Creating Login Roles
+
+- CREATE ROLE
+    - LOGIN - is a user i.e. can login
+    - PASSWORD - followed by password
+    - CREATDB - user can create databases.
+- CREATE USER - same 
+- `man createuser` shell command
+
 ### Creating Group Roles
+
+- CREATE ROLE/GROUP
+- GRANT group_role TO user_role
+- SET ROLE
+
 ## Database Creation
+
+- CREATE DATABASE
+- createdb shell command
+
 ## Template Databases
+
+ - default template1
+ - CREATE DATABASE db_name TEMPLATE my_template
+
 ## Using Schemas
+
+- `CREATE SCHEMA schema_name`
+- `show search_path`
+- `SET search_path schema_name`
+
+
+
 ## Privileges
 ### Types of Privileges
-### Getting Started
-### GRANT
-### Default Privileges
-### Privilege Idiosyncrasies
+
+GRANT `ALL` includes:
+- SELECT
+- INSERT 
+- UPDATE
+- ALTER
+- DELETE
+- TRUNCATE
+- EXECUTE
+
+TO:
+- role
+
+ON:
+ - DATABASE (does not necessarily include tables in db)
+ - TABLE 
+ - TABLES in SCHEMA
+ - columns
+
+WITH GRANT OPTION:
+- allows user to give permissions to others
+
+CREATE privilege is given using CREATE or ALTER
+DROP privilege resides the the OWNER of the database.
+
+
+
+
 ## Extensions
 ### Installing Extensions
+
+```sh
+sudo yum install postgesql11-contrib
+```
+
+Using pg_stat_statements extensios
+[Article](https://www.cybertec-postgresql.com/en/3-ways-to-detect-slow-queries-in-postgresql/) 
+
 ### Common Extensions
 ## Backup and Restore
 ### Selective Backup Using pg_dump
+ 
+Can create either a plain text SQL dump or a custom format backup:
+
+ - `pg_dump database_name` "SQL dump"
+ - `pg_dump -Fc database_name` Custom format
+ - `pg_dump -Fd` use directory i.e. mutiple files.
+
+### Creating a porable SQL dump file
+
+ We can compress the output of an SQL dump using `pg_dump` and an external file:
+
+ ```sh
+$  sudo -u postgres pg_dump northwind > northwind_dump.sql
+$  sudo -u postgres pg_dump northwind | gzip > northwind_dump.sql.gz
+$  sudo -u postgres pg_dump northwind | bzip2 > northwind_dump.sql.bz2
+$  sudo -u postgres pg_dump northwind | compress > northwind_dump.sql.Z
+$ ls -sh  northwind_dump.sql*
+208K northwind_dump.sql   36K northwind_dump.sql.bz2   48K northwind_dump.sql.gz   48K northwind_dump.sql.gz.bz2   76K northwind_dump.sql.Z
+
+ ```
+ ### Using the "Custom format"
+
+Sing file backup
+
+ ```sh
+$  sudo -u postgres pg_dump -Fc northwind -f northwind.backup
+```
+
+Multi file backup (1 file per table)
+
+```sh
+$  sudo -u postgres pg_dump -Fd northwind -f backup/
+```
+
+Viewing the output
+```sh
+$ ls -l northwind.backup backup/
+-rw-rw-r--. 1 student student 55523 Oct 25 10:25 northwind.backup
+
+backup/:
+total 76
+-rw-rw-r--. 1 student student   250 Oct 25 10:28 3756.dat.gz
+-rw-rw-r--. 1 student student  5328 Oct 25 10:28 3757.dat.gz
+-rw-rw-r--. 1 student student  1312 Oct 25 10:28 3758.dat.gz
+-rw-rw-r--. 1 student student 11219 Oct 25 10:28 3759.dat.gz
+-rw-rw-r--. 1 student student 20227 Oct 25 10:28 3760.dat.gz
+-rw-rw-r--. 1 student student  2011 Oct 25 10:28 3761.dat.gz
+-rw-rw-r--. 1 student student   103 Oct 25 10:28 3762.dat.gz
+-rw-rw-r--. 1 student student  2102 Oct 25 10:28 3763.dat.gz
+-rw-rw-r--. 1 student student    25 Oct 25 10:28 3764.dat.gz
+-rw-rw-r--. 1 student student 12251 Oct 25 10:28 toc.dat
+
+ ```
+
 ### Systemwide Backup Using pg_dumpall
-### Restoring Data
+
+see `man pg_dumpall`
+- SQL dump format
+- includes database creation commands
+
+
+### Restoring Data from SQL dump
+
+Typically a `pg_dump` packup is restored into an empty data base:
+
+```sh
+createdb -U admin restore;
+psql -U admin restore < northwind_dump.sql
+```
+or
+```sh
+zcat northwind_dump.sql.gz | psql -U admin restore 
+```
+
+or
+```sh
+bzcat northwind_dump.sql.bz2 | psql -U admin restore 
+```
+
+
+### Restoring Data from custom format backup
+
+Restore usine the `pg_restore` command
+
+```sh
+sudo -u postgres pg_restore -d northwind /tmp/northwind.backup
+```
+
+
 ## Managing Disk Storage with Tablespaces
+
+Table spaces are alternate disk locations where tables or entire databases may be stored
+
 ### Creating Tablespaces
+
+```sh
+postgres=# \h create tablespace
+Command:     CREATE TABLESPACE
+Description: define a new tablespace
+Syntax:
+CREATE TABLESPACE tablespace_name
+    [ OWNER { new_owner | CURRENT_USER | SESSION_USER } ]
+    LOCATION 'directory'
+    [ WITH ( tablespace_option = value [, ... ] ) ]
+```
+
 ### Moving Objects Among Tablespaces
+
+```sh
+ALTER DATABASE name SET TABLESPACE new_tablespace
+
+ALTER TABLE ... name ...  SET TABLESPACE new_tablespace
+```
+
+
 ## Verboten Practices
-### Don’t Delete PostgreSQL Core System Files and Binaries
-### Don’t Grant Full OS Administrative Privileges to the Postgres System Account (postgres)
-### Don’t Set shared_buffers Too High
-### Don’t Try to Start PostgreSQL on a Port Already in Use
+
+- Don’t Delete PostgreSQL Core System Files and Binaries
+- Don’t Grant Full OS Administrative Privileges to the Postgres System Account (postgres)
+- Don’t Set shared_buffers Too High
+- Don’t Try to Start PostgreSQL on a Port Already in Use
 
 # psql
 ## Environment Variables
@@ -382,6 +607,8 @@ METHOD
 ### psql Export
 ### Copying from or to Program
 ## Basic Reporting
+
+
 # Using pgAdmin
 ## Getting Started
 ### Overview of Features
@@ -400,10 +627,30 @@ METHOD
 ### Installing pgAgent
 ### Scheduling Jobs
 ### Helpful pgAgent Queries
+
+
 # Data Types
+
 ## Numerics
+
 ### Serials
+PostgreSQL - SERIAL - Generate IDs (Identity, Auto-increment) SERIAL data type allows you to automatically generate unique integer numbers (IDs, identity, auto-increment, sequence) for a column.
+
 ### Generate Series Function
+
+```sh
+SELECT * 
+FROM generate_series(1, 5);
+ generate_series
+-----------------
+               1
+               2
+               3
+               4
+               5
+```
+
+
 ## Textuals
 ### String Functions
 ### Splitting Strings into Arrays, Tables, or Substrings
@@ -466,9 +713,19 @@ METHOD
 ### Multicolumn Indexes
 
 # SQL: The PostgreSQL Way
+
+see [Tutorial Intro to PostgreSQL](https://www.postgresql.org/docs/10/tutorial.html)
+
 ## Views
-### Single Table Views
 ### Using Triggers to Update Views
+
+Using rules:
+```sh
+CREATE [ OR REPLACE ] RULE name AS ON event
+    TO table [ WHERE condition ]
+    DO [ ALSO | INSTEAD ] { NOTHING | command | ( command ; command ... ) }
+```
+
 ### Materialized Views
 ## Handy Constructions
 ### DISTINCT ON
@@ -524,7 +781,7 @@ METHOD
 ## Gathering Statistics on Statements
 ## Writing Better Queries
 ### Overusing Subqueries in SELECT
-### Avoid SELECT *
+### Avoid SELECT `*`
 ### Make Good Use of CASE
 ### Using FILTER Instead of CASE
 ## Parallelized Queries
@@ -539,6 +796,11 @@ METHOD
 ## Caching
 # Replication and External Data
 ## Replication Overview
+ - transaction plug slony, pg_pool
+ - log shipping copy wall file to the remote machine
+ - 1 streaming replication
+ - logical replication
+
 ## Replication Jargon
 ## Evolution of PostgreSQL Replication
 ## Third-Party Replication Options
